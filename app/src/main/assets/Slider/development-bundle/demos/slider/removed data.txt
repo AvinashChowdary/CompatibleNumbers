@@ -1,0 +1,16 @@
+  
+Horizantal Roundup(a): <input type="text" readonly="" id="HorizontalValue" style="border:0; color:green; font-weight:bold;"> 
+Horizantal Reminder(b): <input type="text" readonly="" id="Remindervalue1" style="border:0; color:green; font-weight:bold;"> <br>
+Vertical Roundup(c): <input type="text" readonly="" id="vRound" style="border:0; color:green; font-weight:bold;">
+Vertical Reminder(d): <input type="text" readonly="" id="Remindervalue2" style="border:0; color:green; font-weight:bold;"> <br>
+Roundup Total(ac): <input type="text" readonly="" id="totalValue" style="border:0; color:green; font-weight:bold;">
+
+
+Reminder Value (bd): <input type="text" readonly="" id="ReminderValue" style="border:10; width=" 30"="" height="30" color:green;="" font-weight:bold;"=""><br>
+Horizantal * reminder2 (ad): <input type="text" readonly="" id="ad" style="border:10; width=" 30"="" height="30" color:green;="" font-weight:bold;"="">
+Vertical * reminder1 (bc): <input type="text" readonly="" id="bc" style="border:10; width=" 30"="" height="30" color:green;="" font-weight:bold;"=""><br>
+
+
+
+Final Output: <input type="text" readonly="" id="FinalValue" style="border:0; color:green; font-weight:bold;">
+  */

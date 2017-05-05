@@ -1,0 +1,7 @@
+<html style{height:100%}>
+<head>
+</head>
+<body>
+<div></div>
+</body>
+</html>
