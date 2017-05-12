@@ -29,7 +29,7 @@ import java.util.List;
 
 public class CompatibleCanvasActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
-    private static final String TAG = CompatibleActivity.class.getSimpleName();
+    private static final String TAG = CompatibleCanvasActivity.class.getSimpleName();
 
     private Button firstBtn;
 
