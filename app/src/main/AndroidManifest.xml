@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar">
         <activity
-            android:name=".activities.CompatibleActivity"
+            android:name=".activities.CompatibleCanvasActivity"
             android:theme="@style/ActivityTheme"
             android:label="@string/app_name">
             <intent-filter>
