@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.compatiblenumbers.R;
 import com.compatiblenumbers.helper.ui.CirclesDrawingView;
@@ -88,10 +89,10 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
 //        float dp20Pixel = convertDpToPixel((float) 20.0, this);
 //        canvasWidth = Math.round(width - 2*dp20Pixel);
         canvasWidth = width;
-        Log.e(TAG, canvasWidth+"");
+        Log.d("PAVAN", "CanvasWidth "+canvasWidth);
 
         magicNumber = ((float)canvasWidth)/100;
-        Log.e(TAG, magicNumber+"");
+        Log.d("PAVAN", "Magic number "+magicNumber);
 
         int margin = width - canvasWidth;
         int marginDp = Math.round(convertPixelsToDp((float)margin, this));
@@ -107,20 +108,28 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
             case R.id.me_try:
                 break;
             case R.id.show_me:
-                int firstNum = Integer.parseInt(firstInput.getText().toString());
-                int secondNum = Integer.parseInt(secondInput.getText().toString());
+                if(!firstInput.getText().toString().equals("") && !secondInput.getText().toString().equals(""))
+                {
+                    int firstNum = Integer.parseInt(firstInput.getText().toString());
+                    int secondNum = Integer.parseInt(secondInput.getText().toString());
 
-                int firstRemaining = firstNum%10;
-                int firstCompatible = firstNum - firstRemaining;
-                int secondRemaining = secondNum%10;
-                int secondCompatible = secondNum - secondRemaining;
+                    int firstRemaining = firstNum%10;
+                    int firstCompatible = firstNum - firstRemaining;
+                    int secondRemaining = secondNum%10;
+                    int secondCompatible = secondNum - secondRemaining;
 
-                int cp = firstCompatible*secondCompatible;
-                int frSC = firstRemaining*secondCompatible;
-                int srFC = secondRemaining*firstCompatible;
-                int frSR = firstRemaining*secondRemaining;
-                findCompatible(firstCompatible, firstRemaining, secondCompatible, secondRemaining, cp, frSC, srFC, frSR);
-                break;
+                    int cp = firstCompatible*secondCompatible;
+                    int frSC = firstRemaining*secondCompatible;
+                    int srFC = secondRemaining*firstCompatible;
+                    int frSR = firstRemaining*secondRemaining;
+                    findCompatible(firstCompatible, firstRemaining, secondCompatible, secondRemaining, cp, frSC, srFC, frSR);
+                    break;
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Enter numbers first", Toast.LENGTH_SHORT).show();
+                    break;
+                }
             case R.id.refresh:
                 refresh();
                 break;
@@ -155,6 +164,8 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
         thirdBtn.setText("");
         fourthBtn.setText("");
         fifthBtn.setText("");
+
+        canvasView.invalidate();
     }
 
     public static float convertPixelsToDp(float px, Context context){
@@ -187,11 +198,14 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
     private void callDrawRect(MotionEvent event) {
 
 
+        Log.d("PAVAN", event.getX()+": X");
+        Log.d("PAVAN", event.getY()+": Y");
+
         int roundedOffX = Math.round((event.getX()/magicNumber));
         int roundedOffY = Math.round((event.getY()/magicNumber));
 
-        Log.e(TAG, roundedOffX+": Rounded X");
-        Log.e(TAG, roundedOffY+": Rounded Y");
+        Log.d("PAVAN", roundedOffX+": Rounded X");
+        Log.d("PAVAN", roundedOffY+": Rounded Y");
 
         drawRectsOnCanvas(roundedOffX, roundedOffY);
     }
@@ -209,7 +223,7 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
         rectList.add(rect);
 
         rect = new Rect();
-        rect.set(pointX, pointY, canvasWidth, canvasWidth);
+        rect.set(pointX, 0, canvasWidth, pointY);
         rectList.add(rect);
 
         rect = new Rect();
@@ -217,7 +231,7 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
         rectList.add(rect);
 
         rect = new Rect();
-        rect.set(pointX, 0, canvasWidth, pointY);
+        rect.set(pointX, pointY, canvasWidth, canvasWidth);
         rectList.add(rect);
 
         Paint myPaint = new Paint();
@@ -226,18 +240,74 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
         myPaint.setStyle(Paint.Style.FILL);
         myPaint.setTextSize(20);
 
-        TextBlock textBlock = new TextBlock();
-        textBlock.setPointX(pointX/2);
-        textBlock.setPointY(pointY/2);
-        textBlock.setPaint(myPaint);
-        textBlock.setText(roundedOffX+ " X "+ roundedOffY + " = " + roundedOffX*roundedOffY);
-        textBlocks.add(textBlock);
+        //----------------------------------------------------------------------------------
 
-        // in the similar way add textblock objects
-        // for other blocks also
-        // add the values to text buttons too.
+        int xblock1 = pointX/2;
+        int yblock1 = pointY/2;
+        int xvalblock1 = roundedOffX;
+        int yvalblock1 = roundedOffY;
+        int resultblock1 = xvalblock1*yvalblock1;
+
+        TextBlock textBlock1 = new TextBlock();
+        textBlock1.setPointX(xblock1);
+        textBlock1.setPointY(yblock1);
+        textBlock1.setPaint(myPaint);
+        textBlock1.setText(xvalblock1+ " X "+ yvalblock1 + " = " + resultblock1);
+        textBlocks.add(textBlock1);
+
+        //----------------------------------------------------------------------------------
+
+        int xblock2 = pointX + (canvasWidth-pointX)/2;
+        int yblock2 = pointY/2;
+        int xvalblock2 = 100-roundedOffX;
+        int yvalblock2 = roundedOffY;
+        int resultblock2 = (100-roundedOffX)*roundedOffY;
+
+        TextBlock textBlock2 = new TextBlock();
+        textBlock2.setPointX(xblock2);
+        textBlock2.setPointY(yblock2);
+        textBlock2.setPaint(myPaint);
+        textBlock2.setText(xvalblock2+ " X "+ yvalblock2 + " = " + resultblock2);
+        textBlocks.add(textBlock2);
+
+        //----------------------------------------------------------------------------------
+
+        int xblock3 = pointX/2;
+        int yblock3 = pointY + (canvasWidth-pointY)/2;
+        int xvalblock3 = roundedOffX;
+        int yvalblock3 = 100-roundedOffY;
+        int resultblock3 = xvalblock3 * yvalblock3;
+
+        TextBlock textBlock3 = new TextBlock();
+        textBlock3.setPointX(xblock3);
+        textBlock3.setPointY(yblock3);
+        textBlock3.setPaint(myPaint);
+        textBlock3.setText(xvalblock3+ " X "+ yvalblock3 + " = " + resultblock3);
+        textBlocks.add(textBlock3);
+
+        //----------------------------------------------------------------------------------
+
+        int xblock4 = pointX + (canvasWidth-pointX)/2;
+        int yblock4 = pointY + (canvasWidth-pointY)/2;
+        int xvalblock4 = 100-roundedOffX;
+        int yvalblock4 = 100-roundedOffY;
+        int resultblock4 = xvalblock4 * yvalblock4;
+
+        TextBlock textBlock4 = new TextBlock();
+        textBlock4.setPointX(xblock4);
+        textBlock4.setPointY(yblock4);
+        textBlock4.setPaint(myPaint);
+        textBlock4.setText(xvalblock4+ " X "+ yvalblock4 + " = " + resultblock4);
+        textBlocks.add(textBlock4);
+
+        //----------------------------------------------------------------------------------
 
         canvasView.setRectangles(rectList, textBlocks);
+        firstBtn.setText(textBlock1.getText());
+        secondBtn.setText(textBlock2.getText());
+        thirdBtn.setText(textBlock3.getText());
+        fourthBtn.setText(textBlock4.getText());
+        fifthBtn.setText(resultblock1+" "+resultblock2+" "+resultblock3+" "+resultblock4+" ="+" "+(resultblock1+resultblock2+resultblock3+resultblock4));
 
     }
 }
