@@ -307,7 +307,7 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
         secondBtn.setText(textBlock2.getText());
         thirdBtn.setText(textBlock3.getText());
         fourthBtn.setText(textBlock4.getText());
-        fifthBtn.setText(resultblock1+" "+resultblock2+" "+resultblock3+" "+resultblock4+" ="+" "+(resultblock1+resultblock2+resultblock3+resultblock4));
+        fifthBtn.setText(resultblock1+" + "+resultblock2+" + "+resultblock3+" + "+resultblock4+" ="+" "+(resultblock1+resultblock2+resultblock3+resultblock4));
 
     }
 }
