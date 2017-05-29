@@ -11,9 +11,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 
-import com.compatiblenumbers.R;
 import com.compatiblenumbers.model.TextBlock;
 
 import java.util.ArrayList;
