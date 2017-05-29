@@ -11,7 +11,9 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
+import com.compatiblenumbers.R;
 import com.compatiblenumbers.model.TextBlock;
 
 import java.util.ArrayList;
@@ -138,7 +140,7 @@ public class CirclesDrawingView extends View {
         init(ct);
     }
 
-    private void init(final Context ct) {
+    public void init(final Context ct) {
         // Generate bitmap used for background
         mBitmap = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
 
@@ -151,9 +153,14 @@ public class CirclesDrawingView extends View {
 
     @Override
     public void onDraw(final Canvas canv) {
+
         getParent().requestDisallowInterceptTouchEvent(true);
-        // background bitmap to cover all area
         canv.drawBitmap(mBitmap, null, mMeasuredRect, null);
+
+        int cellWidth = canv.getWidth()/10;
+        Paint blackPaint = new Paint();
+        blackPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+
         for (CircleArea circle : mCircles) {
             canv.drawCircle(circle.centerX, circle.centerY, circle.radius, mCirclePaint);
         }
@@ -161,10 +168,19 @@ public class CirclesDrawingView extends View {
         if (mRectangles != null && mRectangles.size() == 4) {
             for (int i = 0; i < 4; i++) {
                 canv.drawRect(mRectangles.get(i), myPaints.get(i));
-                //displaying only 1st item
-                // after adding blocks change 0 to i to get all values
-                TextBlock textBlock = textBlocks.get(0);
+
+                for (int j = 1; j < 10; j++) {
+                    canv.drawLine(j * cellWidth, 0, j * cellWidth, canv.getHeight(), blackPaint);
+                }
+
+                for (int j = 1; j < 10; j++) {
+                    canv.drawLine(0, j * cellWidth, canv.getWidth(), j * cellWidth, blackPaint);
+                }
+
+                TextBlock textBlock = textBlocks.get(i);
+                Log.d("BLOCK", "textBlock "+i+" "+textBlock.getText()+" "+textBlock.getPointX()+" "+textBlock.getPointY()+" "+textBlock.getPaint());
                 canv.drawText(textBlock.getText(), textBlock.getPointX(), textBlock.getPointY(), textBlock.getPaint());
+
             }
         }
     }
