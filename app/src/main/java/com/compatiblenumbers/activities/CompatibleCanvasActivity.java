@@ -21,6 +21,8 @@ import com.compatiblenumbers.R;
 import com.compatiblenumbers.helper.ui.CirclesDrawingView;
 import com.compatiblenumbers.model.TextBlock;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +45,8 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
     private EditText firstInput;
 
     private EditText secondInput;
+
+    private float MaxSize = 100;
 
     private Button fifthBtn;
 
@@ -106,6 +110,20 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.me_try:
+                if(firstInput.getText().toString() == "" || secondInput.getText().toString() == "")
+                {
+                    Toast.makeText(getApplicationContext(), "Enter numbers first", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    int first = Integer.parseInt(firstInput.getText().toString());
+                    int second = Integer.parseInt(secondInput.getText().toString());
+                    int product = first*second;
+                    MaxSize = (float) Math.sqrt(product);
+                    magicNumber = (((float)canvasWidth)/MaxSize);
+                    Log.d("PAVAN", "MaxSize "+MaxSize);
+                    Log.d("PAVAN", "magicnum "+magicNumber);
+                }
                 break;
             case R.id.show_me:
                 if(!firstInput.getText().toString().equals("") && !secondInput.getText().toString().equals(""))
@@ -212,6 +230,9 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
 
     private void drawRectsOnCanvas(int roundedOffX, int roundedOffY) {
 
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+
         List<Rect> rectList = new ArrayList<>(CirclesDrawingView.RECT_LIMIT);
         List<TextBlock> textBlocks = new ArrayList<>(CirclesDrawingView.RECT_LIMIT);
 
@@ -252,22 +273,22 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
         textBlock1.setPointX(xblock1);
         textBlock1.setPointY(yblock1);
         textBlock1.setPaint(myPaint);
-        textBlock1.setText(xvalblock1+ " X "+ yvalblock1 + " = " + resultblock1);
+        textBlock1.setText(df.format(xvalblock1)+ " X "+ df.format(yvalblock1) + " = " + df.format(resultblock1));
         textBlocks.add(textBlock1);
 
         //----------------------------------------------------------------------------------
 
         int xblock2 = pointX + (canvasWidth-pointX)/2;
         int yblock2 = pointY/2;
-        int xvalblock2 = 100-roundedOffX;
+        float xvalblock2 = (MaxSize-roundedOffX);
         int yvalblock2 = roundedOffY;
-        int resultblock2 = (100-roundedOffX)*roundedOffY;
+        float resultblock2 = (MaxSize-roundedOffX)*roundedOffY;
 
         TextBlock textBlock2 = new TextBlock();
         textBlock2.setPointX(xblock2);
         textBlock2.setPointY(yblock2);
         textBlock2.setPaint(myPaint);
-        textBlock2.setText(xvalblock2+ " X "+ yvalblock2 + " = " + resultblock2);
+        textBlock2.setText(df.format(xvalblock2)+ " X "+ df.format(yvalblock2) + " = " + df.format(resultblock2));
         textBlocks.add(textBlock2);
 
         //----------------------------------------------------------------------------------
@@ -275,39 +296,40 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
         int xblock3 = pointX/2;
         int yblock3 = pointY + (canvasWidth-pointY)/2;
         int xvalblock3 = roundedOffX;
-        int yvalblock3 = 100-roundedOffY;
-        int resultblock3 = xvalblock3 * yvalblock3;
+        float yvalblock3 = MaxSize-roundedOffY;
+        float resultblock3 = xvalblock3 * yvalblock3;
 
         TextBlock textBlock3 = new TextBlock();
         textBlock3.setPointX(xblock3);
         textBlock3.setPointY(yblock3);
         textBlock3.setPaint(myPaint);
-        textBlock3.setText(xvalblock3+ " X "+ yvalblock3 + " = " + resultblock3);
+        textBlock3.setText(df.format(xvalblock3)+ " X "+ df.format(yvalblock3) + " = " + df.format(resultblock3));
         textBlocks.add(textBlock3);
 
         //----------------------------------------------------------------------------------
 
         int xblock4 = pointX + (canvasWidth-pointX)/2;
         int yblock4 = pointY + (canvasWidth-pointY)/2;
-        int xvalblock4 = 100-roundedOffX;
-        int yvalblock4 = 100-roundedOffY;
-        int resultblock4 = xvalblock4 * yvalblock4;
+        float xvalblock4 = MaxSize-roundedOffX;
+        float yvalblock4 = MaxSize-roundedOffY;
+        float resultblock4 = xvalblock4 * yvalblock4;
 
         TextBlock textBlock4 = new TextBlock();
         textBlock4.setPointX(xblock4);
         textBlock4.setPointY(yblock4);
         textBlock4.setPaint(myPaint);
-        textBlock4.setText(xvalblock4+ " X "+ yvalblock4 + " = " + resultblock4);
+        textBlock4.setText(df.format(xvalblock4)+ " X "+ df.format(yvalblock4) + " = " + df.format(resultblock4));
         textBlocks.add(textBlock4);
 
         //----------------------------------------------------------------------------------
 
         canvasView.setRectangles(rectList, textBlocks);
+
         firstBtn.setText(textBlock1.getText());
         secondBtn.setText(textBlock2.getText());
         thirdBtn.setText(textBlock3.getText());
         fourthBtn.setText(textBlock4.getText());
-        fifthBtn.setText(resultblock1+" "+resultblock2+" "+resultblock3+" "+resultblock4+" ="+" "+(resultblock1+resultblock2+resultblock3+resultblock4));
+        fifthBtn.setText(df.format(resultblock1)+"+"+df.format(resultblock2)+"+"+df.format(resultblock3)+"+"+df.format(resultblock4)+" ="+" "+df.format(resultblock1+resultblock2+resultblock3+resultblock4));
 
     }
 }
