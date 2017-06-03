@@ -7,8 +7,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:background="@android:color/white"
         android:orientation="vertical">
 
@@ -19,6 +17,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:paddingTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:paddingBottom="10dp"
             android:text="@string/enter_numbers"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -27,6 +27,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="horizontal">
 
             <EditText
@@ -68,6 +70,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
