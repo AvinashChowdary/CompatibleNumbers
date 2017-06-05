@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.compatiblenumbers.R;
@@ -25,6 +26,8 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.compatiblenumbers.R.color.purple;
 
 /**
  * Created by avinash on 5/10/17.
@@ -110,7 +113,7 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.me_try:
-                if(firstInput.getText().toString() == "" || secondInput.getText().toString() == "")
+                if(firstInput.getText().toString().equals("") || secondInput.getText().toString().equals(""))
                 {
                     Toast.makeText(getApplicationContext(), "Enter numbers first", Toast.LENGTH_SHORT).show();
                 }
@@ -123,6 +126,7 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
                     magicNumber = (((float)canvasWidth)/MaxSize);
                     Log.d("PAVAN", "MaxSize "+MaxSize);
                     Log.d("PAVAN", "magicnum "+magicNumber);
+                    Toast.makeText(getApplicationContext(), "Try finding the numbers on canvas", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.show_me:
@@ -141,6 +145,8 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
                     int srFC = secondRemaining*firstCompatible;
                     int frSR = firstRemaining*secondRemaining;
                     findCompatible(firstCompatible, firstRemaining, secondCompatible, secondRemaining, cp, frSC, srFC, frSR);
+                    ScrollView sv = (ScrollView)findViewById(R.id.scroller);
+                    sv.scrollTo(0, sv.getBottom());
                     break;
                 }
                 else
@@ -182,8 +188,6 @@ public class CompatibleCanvasActivity extends AppCompatActivity implements View.
         thirdBtn.setText("");
         fourthBtn.setText("");
         fifthBtn.setText("");
-
-        canvasView.invalidate();
     }
 
     public static float convertPixelsToDp(float px, Context context){
